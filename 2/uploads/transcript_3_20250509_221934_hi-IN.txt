@@ -1,0 +1,9 @@
+Timestamp: 20250509_221934
+User ID: 3
+Requested Language: hi-IN
+Original File: audio_20250509_221934.webm
+Processed WAV File: audio_3_20250509_221934.wav
+User transcript (from frontend): [No speech recognized]
+Server transcript (hi-IN): मेरा मन अच्छा नहीं है यार
+Detected Emotion: Disgust
+Translated Response: ठीक है, मैंने आपको यह कहते सुना: 'मेरा दिमाग अच्छा आदमी नहीं है'। उसके आधार पर, मैंने भावना का पता लगाया: 'घृणा'। मैं आगे कैसे मदद कर सकता हूं?

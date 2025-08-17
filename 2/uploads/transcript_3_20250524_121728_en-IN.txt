@@ -1,0 +1,9 @@
+Timestamp: 20250524_121728
+User ID: 3
+Requested Language: en-IN
+Original File: audio_20250524_121728.webm
+Processed WAV File: audio_3_20250524_121728.wav
+User transcript (from frontend): I am not happy today
+Server transcript (en-IN): I am not happy today
+Detected Emotion: Disgust
+Translated Response: Okay, I heard you say: 'I am not happy today'. Based on that, I detected the emotion: 'Disgust'. How can I help further?

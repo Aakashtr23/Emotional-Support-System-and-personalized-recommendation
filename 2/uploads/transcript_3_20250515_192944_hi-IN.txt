@@ -1,0 +1,9 @@
+Timestamp: 20250515_192944
+User ID: 3
+Requested Language: hi-IN
+Original File: audio_20250515_192944.webm
+Processed WAV File: audio_3_20250515_192944.wav
+User transcript (from frontend): मैंने खाना खा लिया
+Server transcript (hi-IN): मैंने खाना खा लिया
+Detected Emotion: Surprised
+Translated Response: ठीक है, मैंने आपको यह कहते हुए सुना: 'मैंने खाना खाया'। उसके आधार पर, मैंने भावना का पता लगाया: 'हैरान'। मैं आगे कैसे मदद कर सकता हूं?

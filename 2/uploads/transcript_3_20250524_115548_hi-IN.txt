@@ -1,0 +1,9 @@
+Timestamp: 20250524_115548
+User ID: 3
+Requested Language: hi-IN
+Original File: audio_20250524_115548.webm
+Processed WAV File: audio_3_20250524_115548.wav
+User transcript (from frontend): बहुत उदास हूं क्योंकि सुबह उठ गया और खाना भी नहीं खाया
+Server transcript (hi-IN): बहुत उदास हूं क्योंकि सुबह उठ गया खाना भी नहीं खाया
+Detected Emotion: Angry
+Translated Response: ठीक है, मैंने आपको यह कहते हुए सुना: 'मैं बहुत दुखी हूं क्योंकि मैं सुबह उठा और खाना नहीं खाया।' उसके आधार पर, मैंने भावना का पता लगाया: 'गुस्सा'। मैं आगे कैसे मदद कर सकता हूं?

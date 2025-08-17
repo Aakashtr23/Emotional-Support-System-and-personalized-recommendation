@@ -1,0 +1,9 @@
+Timestamp: 20250524_120000
+User ID: 3
+Requested Language: en-IN
+Original File: audio_20250524_120000.webm
+Processed WAV File: audio_3_20250524_120000.wav
+User transcript (from frontend): hi my name is blah blah blah blah what you are doing I don't know why they called I don't know what is my
+Server transcript (en-IN): hi my name is blah blah blah blah what you are doing I don't know why they called I don't know what is my mood
+Detected Emotion: Disgust
+Translated Response: Okay, I heard you say: 'hi my name is blah blah blah blah what you are doing I don't know why they called I don't know what is my mood'. Based on that, I detected the emotion: 'Disgust'. How can I help further?

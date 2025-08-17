@@ -1,0 +1,9 @@
+Timestamp: 20250511_213233
+User ID: 3
+Requested Language: en-IN
+Original File: audio_20250511_213233.webm
+Processed WAV File: audio_3_20250511_213233.wav
+User transcript (from frontend): I don't want to talk anymore
+Server transcript (en-IN): I don't want to talk anymore
+Detected Emotion: Sad
+Translated Response: Okay, I heard you say: 'I don't want to talk anymore'. Based on that, I detected the emotion: 'Sad'. How can I help further?

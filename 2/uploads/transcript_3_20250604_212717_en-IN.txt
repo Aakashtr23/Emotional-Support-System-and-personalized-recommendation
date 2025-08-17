@@ -1,0 +1,9 @@
+Timestamp: 20250604_212717
+User ID: 3
+Requested Language: en-IN
+Original File: audio_20250604_212717.webm
+Processed WAV File: audio_3_20250604_212717.wav
+User transcript (from frontend): I am not happy today because I wake up early
+Server transcript (en-IN): I am not happy today because I wake up early
+Detected Emotion: Sad
+Translated Response: Okay, I heard you say: 'I am not happy today because I wake up early'. Based on that, I detected the emotion: 'Sad'. How can I help further?

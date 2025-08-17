@@ -1,0 +1,9 @@
+Timestamp: 20250604_212857
+User ID: 3
+Requested Language: kn-IN
+Original File: audio_20250604_212857.webm
+Processed WAV File: audio_3_20250604_212857.wav
+User transcript (from frontend): [No speech recognized]
+Server transcript (kn-IN): ಆಯ್ತಾ
+Detected Emotion: Surprised
+Translated Response: ಸರಿ, ನೀವು ಹೇಳುವುದನ್ನು ನಾನು ಕೇಳಿದೆ: 'ಅಂತಃಪ್ರಜ್ಞೆ'. ಅದರ ಆಧಾರದ ಮೇಲೆ, ನಾನು ಭಾವನೆಯನ್ನು ಪತ್ತೆ ಮಾಡಿದೆ: 'ಆಶ್ಚರ್ಯ'. ನಾನು ಮತ್ತಷ್ಟು ಸಹಾಯ ಮಾಡುವುದು ಹೇಗೆ?

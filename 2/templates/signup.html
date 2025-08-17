@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+            min-height: 100vh;
+            margin: 0;
+            justify-content: center; /* Center vertically */
+        }
+         .signup-container {
+            background-color: #fff;
+            padding: 30px; /* Increased padding */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Softer shadow */
+            width: 90%;
+            max-width: 450px; /* Slightly wider for more fields */
+            text-align: center; /* Center text inside container */
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+         h2 {
+             text-align: center;
+             margin-bottom: 20px;
+             color: #555;
+         }
+        .form-group {
+            margin-bottom: 20px; /* Increased margin */
+            text-align: left; /* Align labels and inputs to the left */
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px; /* Increased margin */
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="number"],
+        .form-group input[type="date"] {
+            width: calc(100% - 24px); /* Adjust for padding and border */
+            padding: 12px; /* Increased padding */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            font-family: 'Inter', sans-serif;
+        }
+        button {
+            width: 100%;
+            padding: 12px; /* Increased padding */
+            background-color: #28a745; /* Green color for signup */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+             margin-top: 10px; /* Space above button */
+        }
+        button:hover {
+            background-color: #218838; /* Darker green on hover */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+         .message {
+            margin-bottom: 20px; /* Adjusted margin */
+            padding: 12px;
+            border-radius: 4px;
+            text-align: center;
+            width: 100%; /* Full width within container */
+            box-sizing: border-box; /* Include padding in width */
+        }
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .signin-link {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #555;
+        }
+        .signin-link a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .signin-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+         <h2>Sign Up</h2>
+
+        <% if msg: %>
+            <div class="message <%= 'success' if 'success' in msg.lower() or 'signed up' in msg.lower() else 'error' %>">
+                <%= msg %>
+            </div>
+        <% endif %>
+
+        <form action="{{ url_for('signup') }}" method="POST">
+             <div class="form-group">
+                <label for="signup-fname">First Name:</label>
+                <input type="text" id="signup-fname" name="fname" required>
+            </div>
+             <div class="form-group">
+                <label for="signup-lname">Last Name:</label>
+                <input type="text" id="signup-lname" name="lname" required>
+            </div>
+            <div class="form-group">
+                <label for="signup-email">Email:</label>
+                <input type="email" id="signup-email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Password:</label>
+                <input type="password" id="signup-password" name="password" required>
+            </div>
+             <div class="form-group">
+                <label for="signup-age">Age (Optional):</label>
+                <input type="number" id="signup-age" name="age">
+            </div>
+             <div class="form-group">
+                <label for="signup-dob">Date of Birth (Optional):</label>
+                <input type="date" id="signup-dob" name="dob">
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <div class="signin-link">
+            Already have an account? <a href="{{ url_for('login') }}">Sign In here</a>
+        </div>
+    </div>
+
+     <script>
+        // Simple script to check for message in URL parameters and display it
+        const urlParams = new URLSearchParams(window.location.search);
+        const msg = urlParams.get('msg');
+        if (msg) {
+            const messageEl = document.createElement('div');
+            messageEl.classList.add('message');
+             if (msg.toLowerCase().includes('success') || msg.toLowerCase().includes('signed up')) {
+                 messageEl.classList.add('success');
+             } else {
+                  messageEl.classList.add('error');
+             }
+            messageEl.innerText = msg;
+             // Insert message before the form
+            document.querySelector('.signup-container').insertBefore(messageEl, document.querySelector('form'));
+        }
+    </script>
+</body>
+</html>

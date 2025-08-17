@@ -1,0 +1,9 @@
+Timestamp: 20250524_103105
+User ID: 3
+Requested Language: kn-IN
+Original File: audio_20250524_103105.webm
+Processed WAV File: audio_3_20250524_103105.wav
+User transcript (from frontend): [No speech recognized]
+Server transcript (kn-IN): [Could not understand audio (kn-IN)]
+Detected Emotion: Neutral
+Translated Response: Translation not available.

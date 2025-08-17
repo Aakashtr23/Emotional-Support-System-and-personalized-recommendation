@@ -1,0 +1,9 @@
+Timestamp: 20250524_105706
+User ID: 3
+Requested Language: en-IN
+Original File: audio_20250524_105706.webm
+Processed WAV File: audio_3_20250524_105706.wav
+User transcript (from frontend): hay hello today I am feeling very depressed because I had to wake up at 4:00 in the morning and
+Server transcript (en-IN): hay hello today I am feeling very depressed because I had to wake up at 4:00 in the morning and
+Detected Emotion: Sad
+Translated Response: Okay, I heard you say: 'hay hello today I am feeling very depressed because I had to wake up at 4:00 in the morning and'. Based on that, I detected the emotion: 'Sad'. How can I help further?

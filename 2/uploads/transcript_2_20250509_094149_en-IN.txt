@@ -1,0 +1,9 @@
+Timestamp: 20250509_094149
+User ID: 2
+Requested Language: en-IN
+Original File: audio_20250509_094149.webm
+Processed WAV File: audio_2_20250509_094149.wav
+User transcript (from frontend): I am feeling good
+Server transcript (en-IN): I am feeling good
+Detected Emotion: Happy
+Translated Response: Okay, I heard you say: 'I am feeling good'. Based on that, I detected the emotion: 'Happy'. How can I help further?

@@ -1,0 +1,9 @@
+Timestamp: 20250511_213332
+User ID: 3
+Requested Language: hi-IN
+Original File: audio_20250511_213332.webm
+Processed WAV File: audio_3_20250511_213332.wav
+User transcript (from frontend): मुझे किसी से बात नहीं करना
+Server transcript (hi-IN): मुझे किसी से बात नहीं करना
+Detected Emotion: Surprised
+Translated Response: ठीक है, मैंने आपको यह कहते हुए सुना: 'किसी से बात मत करो'। उसके आधार पर, मैंने भावना का पता लगाया: 'हैरान'। मैं आगे कैसे मदद कर सकता हूं?

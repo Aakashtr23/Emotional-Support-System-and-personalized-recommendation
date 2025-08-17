@@ -1,0 +1,9 @@
+Timestamp: 20250510_142104
+User ID: 3
+Requested Language: en-IN
+Original File: audio_20250510_142104.webm
+Processed WAV File: audio_3_20250510_142104.wav
+User transcript (from frontend): [No speech recognized]
+Server transcript (en-IN): [Could not understand audio (en-IN)]
+Detected Emotion: Neutral
+Translated Response: Translation not available.

@@ -1,0 +1,9 @@
+Timestamp: 20250509_222108
+User ID: 3
+Requested Language: en-IN
+Original File: audio_20250509_222108.webm
+Processed WAV File: audio_3_20250509_222108.wav
+User transcript (from frontend): mujhe bahut Achcha lag raha hai
+Server transcript (en-IN): mujhe bahut Achcha lag raha hai
+Detected Emotion: Disgust
+Translated Response: ठीक है, मैंने आपको यह कहते हुए सुना: 'मुझे बहुत अच्छा लगता है'। उसके आधार पर, मैंने भावना का पता लगाया: 'घृणा'। मैं आगे कैसे मदद कर सकता हूं?

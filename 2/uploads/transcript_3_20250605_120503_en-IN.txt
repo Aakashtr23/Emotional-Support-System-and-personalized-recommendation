@@ -1,0 +1,9 @@
+Timestamp: 20250605_120503
+User ID: 3
+Requested Language: en-IN
+Original File: audio_20250605_120503.webm
+Processed WAV File: audio_3_20250605_120503.wav
+User transcript (from frontend): understand English referring human emotions by a texture communication crucial in this world
+Server transcript (en-IN): understand English referring human emotions by a texture communication system crucial in this world
+Detected Emotion: Surprised
+Translated Response: Okay, I heard you say: 'understand English referring human emotions by a texture communication system crucial in this world'. Based on that, I detected the emotion: 'Surprised'. How can I help further?

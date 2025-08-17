@@ -1,0 +1,9 @@
+Timestamp: 20250523_170746
+User ID: 3
+Requested Language: en-IN
+Original File: audio_20250523_170746.webm
+Processed WAV File: audio_3_20250523_170746.wav
+User transcript (from frontend): I don't want to talk anyone
+Server transcript (en-IN): don't want to talk anyone
+Detected Emotion: Angry
+Translated Response: Okay, I heard you say: 'don't want to talk anyone'. Based on that, I detected the emotion: 'Angry'. How can I help further?

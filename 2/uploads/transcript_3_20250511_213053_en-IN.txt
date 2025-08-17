@@ -1,0 +1,9 @@
+Timestamp: 20250511_213053
+User ID: 3
+Requested Language: en-IN
+Original File: audio_20250511_213053.webm
+Processed WAV File: audio_3_20250511_213053.wav
+User transcript (from frontend): I am said today
+Server transcript (en-IN): I am check today
+Detected Emotion: Surprised
+Translated Response: Okay, I heard you say: 'I am check today'. Based on that, I detected the emotion: 'Surprised'. How can I help further?

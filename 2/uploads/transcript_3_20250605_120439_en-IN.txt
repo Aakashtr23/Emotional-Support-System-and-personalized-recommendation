@@ -1,0 +1,9 @@
+Timestamp: 20250605_120439
+User ID: 3
+Requested Language: en-IN
+Original File: audio_20250605_120439.webm
+Processed WAV File: audio_3_20250605_120439.wav
+User transcript (from frontend): textile communication has become crucial
+Server transcript (en-IN): textile communication has become crucial
+Detected Emotion: Surprised
+Translated Response: Okay, I heard you say: 'textile communication has become crucial'. Based on that, I detected the emotion: 'Surprised'. How can I help further?

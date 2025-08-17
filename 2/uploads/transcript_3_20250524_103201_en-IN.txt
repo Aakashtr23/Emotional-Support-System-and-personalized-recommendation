@@ -1,0 +1,9 @@
+Timestamp: 20250524_103201
+User ID: 3
+Requested Language: en-IN
+Original File: audio_20250524_103201.webm
+Processed WAV File: audio_3_20250524_103201.wav
+User transcript (from frontend): I am angry
+Server transcript (en-IN): I am angry
+Detected Emotion: Sad
+Translated Response: Okay, I heard you say: 'I am angry'. Based on that, I detected the emotion: 'Sad'. How can I help further?

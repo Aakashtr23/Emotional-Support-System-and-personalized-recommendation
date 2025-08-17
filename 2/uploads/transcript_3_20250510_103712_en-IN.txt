@@ -1,0 +1,9 @@
+Timestamp: 20250510_103712
+User ID: 3
+Requested Language: en-IN
+Original File: audio_20250510_103712.webm
+Processed WAV File: audio_3_20250510_103712.wav
+User transcript (from frontend): [No speech recognized]
+Server transcript (en-IN): download happy today stock recorder
+Detected Emotion: Happy
+Translated Response: Okay, I heard you say: 'download happy today stock recorder'. Based on that, I detected the emotion: 'Happy'. How can I help further?

@@ -1,0 +1,9 @@
+Timestamp: 20250522_114429
+User ID: 3
+Requested Language: hi-IN
+Original File: audio_20250522_114429.webm
+Processed WAV File: audio_3_20250522_114429.wav
+User transcript (from frontend): मेरा मन नहीं हो रहा कुछ करने का
+Server transcript (hi-IN): मेरा मन नहीं हो रहा कुछ करने का
+Detected Emotion: Disgust
+Translated Response: ठीक है, मैंने आपको यह कहते हुए सुना: 'मैं कुछ भी करने के लिए महसूस नहीं कर रहा हूं'। उसके आधार पर, मैंने भावना का पता लगाया: 'घृणा'। मैं आगे कैसे मदद कर सकता हूं?

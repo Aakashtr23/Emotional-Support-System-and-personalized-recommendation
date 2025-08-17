@@ -1,0 +1,9 @@
+Timestamp: 20250522_114520
+User ID: 3
+Requested Language: kn-IN
+Original File: audio_20250522_114520.webm
+Processed WAV File: audio_3_20250522_114520.wav
+User transcript (from frontend): ಊಟ ಆಯ್ತಾ
+Server transcript (kn-IN): ಊಟ ಆಯ್ತಾ
+Detected Emotion: Surprised
+Translated Response: ಸರಿ, ನೀವು ಹೇಳುವುದನ್ನು ನಾನು ಕೇಳಿದೆ: 'lunch ಟ'. ಅದರ ಆಧಾರದ ಮೇಲೆ, ನಾನು ಭಾವನೆಯನ್ನು ಪತ್ತೆ ಮಾಡಿದೆ: 'ಆಶ್ಚರ್ಯ'. ನಾನು ಮತ್ತಷ್ಟು ಸಹಾಯ ಮಾಡುವುದು ಹೇಗೆ?

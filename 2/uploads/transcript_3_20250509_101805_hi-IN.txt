@@ -1,0 +1,9 @@
+Timestamp: 20250509_101805
+User ID: 3
+Requested Language: hi-IN
+Original File: audio_20250509_101805.webm
+Processed WAV File: audio_3_20250509_101805.wav
+User transcript (from frontend): विशाल का अच्छा नहीं लग रहा है
+Server transcript (hi-IN): विशाल का अच्छा नहीं लग रहा है
+Detected Emotion: Surprised
+Translated Response: ठीक है, मैंने आपको यह कहते हुए सुना: 'विशाल अच्छा नहीं लगता'। उसके आधार पर, मैंने भावना का पता लगाया: 'हैरान'। मैं आगे कैसे मदद कर सकता हूं?

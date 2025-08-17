@@ -1,0 +1,9 @@
+Timestamp: 20250509_222013
+User ID: 3
+Requested Language: hi-IN
+Original File: audio_20250509_222013.webm
+Processed WAV File: audio_3_20250509_222013.wav
+User transcript (from frontend): तू चुटिया है क्या
+Server transcript (hi-IN): तू चुटिया है क्या
+Detected Emotion: Disgust
+Translated Response: ठीक है, मैंने आपको यह कहते हुए सुना: 'क्या तुम चुतिया हो'। उसके आधार पर, मैंने भावना का पता लगाया: 'घृणा'। मैं आगे कैसे मदद कर सकता हूं?

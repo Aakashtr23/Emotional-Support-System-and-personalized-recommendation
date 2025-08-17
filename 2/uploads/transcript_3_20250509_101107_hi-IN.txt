@@ -1,0 +1,9 @@
+Timestamp: 20250509_101107
+User ID: 3
+Requested Language: hi-IN
+Original File: audio_20250509_101107.webm
+Processed WAV File: audio_3_20250509_101107.wav
+User transcript (from frontend): मैं अच्छा हूं
+Server transcript (hi-IN): मैं अच्छा हूं
+Detected Emotion: Happy
+Translated Response: ठीक है, मैंने आपको यह कहते हुए सुना: 'मैं अच्छा हूं'। उसके आधार पर, मैंने भावना का पता लगाया: 'खुश'। मैं आगे कैसे मदद कर सकता हूं?

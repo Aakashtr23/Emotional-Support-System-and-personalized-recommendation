@@ -1,0 +1,9 @@
+Timestamp: 20250509_101300
+User ID: 3
+Requested Language: en-IN
+Original File: audio_20250509_101300.webm
+Processed WAV File: audio_3_20250509_101300.wav
+User transcript (from frontend): [No speech recognized]
+Server transcript (en-IN): hello han
+Detected Emotion: Surprised
+Translated Response: Okej, jag hörde dig säga: 'Hej han'. Baserat på det upptäckte jag känslorna: "förvånad". Hur kan jag hjälpa vidare?

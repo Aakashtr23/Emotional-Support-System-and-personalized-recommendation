@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Text (Multilingual) with Emotion Media</title>
+     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    {# Include Tailwind CSS CDN #}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for specific layout needs not easily done with pure Tailwind */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Tailwind background classes are handled below or removed from <body> tag */
+
+            /* --- Full Page Background Image --- */
+            /* Place your image in the static folder, e.g., static/your_background_image.jpg */
+            background-image: url('/static/chatbot2.jpg'); /* <-- UPDATE THIS PATH AND FILENAME */
+            background-size: cover;       /* Scale image to cover the entire background */
+            background-repeat: no-repeat; /* Prevent the image from repeating */
+            background-position: center;  /* Center the background image */
+            background-attachment: fixed; /* Keeps the background fixed while content scrolls */
+            /* --------------------------------- */
+        }
+
+        /* Ensure columns take full height in flex container */
+         .main-content-container > div {
+             display: flex;
+             flex-direction: column;
+         }
+
+         /* Ensure media sections take full width of their column */
+         .media-section {
+             width: 100%;
+             box-sizing: border-box; /* Include padding in width */
+         }
+
+         /* Center elements within media sections */
+         .media-section h3,
+         .media-section img,
+         .media-section video,
+         .media-section audio,
+         .media-section p {
+             margin-left: auto;
+             margin-right: auto;
+         }
+
+         /* Specific margin for audio below video */
+         .right-column .media-section:first-child {
+             margin-bottom: 20px; /* Space below video section */
+         }
+         .right-column .media-section:last-child {
+             margin-top: 0; /* Remove extra top margin for audio section */
+         }
+
+         /* Style for the big text box */
+         #bigTextBox {
+             min-height: 150px;
+             resize: vertical; /* Allow vertical resizing */
+             width: 100%; /* Take full width of its parent column */
+             box-sizing: border-box; /* Include padding and border in width */
+         }
+
+
+         /* Responsive adjustments - Tailwind handles much of this, but some custom may be needed */
+         @media (max-width: 768px) { /* Adjust breakpoint as needed */
+             .main-content-container {
+                 flex-direction: column; /* Stack columns on smaller screens */
+                 gap: 10px;
+             }
+             .left-column, .center-column, .right-column {
+                 flex: none; /* Remove flex growing */
+                 width: 100%; /* Take full width */
+                 min-width: auto; /* Remove minimum width constraint */
+             }
+
+         }
+    </style>
+</head>
+{# Removed Tailwind background gradient classes (bg-gradient-to-br from-blue-200 to-purple-300) from the body tag #}
+<body class="text-gray-900 flex flex-col items-center p-5 min-h-screen">
+    {# Added Tailwind classes for header width, flex layout, spacing, background, rounded corners, shadow #}
+    <div class="header w-full max-w-screen-lg flex justify-between items-center mb-8 p-4 bg-white rounded-lg shadow-lg">
+        {# Added Tailwind classes for text color, font weight #}
+        <h1 class="text-3xl font-extrabold text-gray-800">EMOTION DETECTION & RECOMMENDATIONS</h1>
+        {# Added Tailwind classes for button styling #}
+        <button id="logoutButton" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-200 transform hover:scale-105">Logout</button>
+    </div>
+
+    {# The emotion status message is outside the main layout container but centered #}
+    {# Added Tailwind classes for centering, margin, background, padding, rounded corners, shadow #}
+    <div class="w-full max-w-screen-lg text-center mb-6 p-4 bg-yellow-100 rounded-lg shadow-md">
+        <p id="emotionStatus" class="text-lg font-semibold text-yellow-800"></p>
+    </div>
+
+
+    {# Added Tailwind classes for Flexbox layout, spacing, max-width #}
+    <div class="main-content-container flex w-full max-w-screen-lg gap-8 flex-wrap">
+        {# Added Tailwind classes for column flex, padding, background, rounded corners, shadow #}
+        <div class="left-column flex-1 min-w-xs flex flex-col items-center bg-white p-6 rounded-lg shadow-md">
+             <div class="media-section">
+                 <h3>Image</h3>
+                 {# Added Tailwind classes for max-width, rounded corners, shadow, border #}
+                 <img id="emotionImage" src="" alt="Emotion related image" class="max-w-full h-auto rounded-lg shadow-sm border border-gray-200">
+                 {# Added Tailwind classes for text color and margin #}
+                 <p id="noImagesMessage" class="text-gray-500 mt-2 text-center" style="display: none;">No image found for this emotion.</p>
+             </div>
+        </div>
+
+        {# Added Tailwind classes for column flex #}
+        <div class="center-column flex-2 min-w-sm flex flex-col">
+             {# Added Tailwind classes for flex layout, gap, spacing, background, rounded corners, shadow #}
+             <div class="controls flex items-center gap-4 flex-wrap justify-center mb-6 p-4 bg-white rounded-lg shadow-md">
+                 {# Added Tailwind classes for font-bold and text color #}
+                 <label for="languageSelect" class="font-bold text-gray-700">Language:</label>
+                 {# Added Tailwind classes for padding, border, rounded corners, text color, focus styles #}
+                 <select id="languageSelect" class="p-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="en-IN">English (India)</option>
+                    <option value="hi-IN">Hindi (हिन्दी)</option>
+                    <option value="kn-IN">Kannada (ಕನ್ನಡ)</option>
+                    <option value="ta-IN">Tamil (தமிழ்)</option>
+                    <option value="te-IN">Telugu (తెలుగు)</option>
+                    <option value="en-US">English (US)</option>
+                     <option value="fr-FR">French (France)</option>
+                     <option value="es-ES">Spanish (Spain)</option>
+                     <option value="de-DE">German (Germany)</option>
+                     <option value="ja-JP">Japanese (日本)</option>
+                     <option value="ru-RU">Russian (Россия)</option>
+                 </select>
+
+                 {# Added Tailwind classes for button styling #}
+                 <button id="startButton" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-200 transform hover:scale-105">🎙 Start Recording</button>
+                 {# Added Tailwind classes for button styling #}
+                 <button id="stopButton" disabled class="bg-gray-400 text-white font-bold py-2 px-4 rounded-lg shadow-md cursor-not-allowed">⏹ Stop Recording</button>
+             </div>
+
+             {# Added Tailwind classes for padding, border, rounded corners, shadow, background #}
+             {# This div will now show the browser's interim or final transcript while recording #}
+             <div id="transcript" class="bg-white p-4 rounded-lg shadow-sm border border-gray-300 mb-4 text-gray-700">Browser transcript will appear here...</div>
+
+             {# Added Tailwind classes for padding, border, rounded corners, shadow, background, text color #}
+             {# This div will now show the server processing status #}
+             <div id="server-response" class="bg-green-100 text-green-800 p-4 rounded-lg shadow-sm border border-green-300 mb-4" style="display: none;">Server response status here.</div>
+
+             {# Added Tailwind classes for padding, border, rounded corners, shadow, background, text color #}
+             <div id="error" class="bg-red-100 text-red-800 font-bold p-4 rounded-lg shadow-sm border border-red-300 mb-4" style="display: none;"></div>
+
+             {# Added Tailwind classes for margin and width #}
+             <audio id="recordedAudio" controls class="mt-4 w-full"></audio>
+
+             {# Added Tailwind classes for margin, padding, border, rounded corners, shadow, background, focus styles #}
+             {# This textarea will now show formatted Server Tx, Browser Tx, and Translation #}
+             <textarea id="bigTextBox" placeholder="Transcription and translation results will appear here..." class="mt-6 p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-700"></textarea>
+        </div>
+
+        {# Added Tailwind classes for column flex, padding, background, rounded corners, shadow #}
+        <div class="right-column flex-1 min-w-xs flex flex-col bg-white p-6 rounded-lg shadow-md">
+             <div class="media-section">
+                 <h3>Video</h3>
+                 {# Added Tailwind classes for max-width, rounded corners, shadow, border #}
+                 <video id="emotionVideo" src="" controls class="max-w-full h-auto rounded-lg shadow-sm border border-gray-200"></video>
+                 {# Added Tailwind classes for text color and margin #}
+                 <p id="noVideoMessage" class="text-gray-500 mt-2 text-center" style="display: none;">No video found for this emotion.</p>
+             </div>
+
+             <div class="media-section">
+                 <h3>Audio</h3>
+                 {# Added Tailwind classes for max-width, rounded corners, shadow, border #}
+                 <audio id="emotionAudio" src="" controls class="max-w-full h-auto rounded-lg shadow-sm border border-gray-200"></audio>
+                 {# Added Tailwind classes for text color and margin #}
+                 <p id="noAudioMessage" class="text-gray-500 mt-2 text-center" style="display: none;">No audio found for this emotion.</p>
+             </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- Global Variables ---
+        let mediaRecorder;
+        let audioChunks = [];
+        let recognition; // For Web Speech API (browser-side)
+        let gumStream;
+        let finalTranscript = ''; // Browser's final transcript
+        let isRecording = false;
+        const FILE_TYPES = ['images', 'audio', 'video']; // Possible file types for emotion media
+
+        // DOM Element References
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const recordedAudio = document.getElementById('recordedAudio');
+        const errorEl = document.getElementById('error');
+        const transcriptEl = document.getElementById('transcript'); // Browser transcript display
+        const responseEl = document.getElementById('server-response'); // Server status/message display
+        const languageSelect = document.getElementById('languageSelect'); // Get language dropdown
+        const logoutButton = document.getElementById('logoutButton');
+
+        // Emotion media elements (now in specific columns)
+        const emotionImageEl = document.getElementById('emotionImage'); // Single image element
+        const emotionAudioEl = document.getElementById('emotionAudio');
+        const emotionVideoEl = document.getElementById('emotionVideo');
+        const noImagesMessageEl = document.getElementById('noImagesMessage');
+        const noAudioMessageEl = document.getElementById('noAudioMessage');
+        const noVideoMessageEl = document.getElementById('noVideoMessage');
+        const bigTextBoxEl = document.getElementById('bigTextBox'); // Reference to the text box
+
+        // Emotion status element (now outside the main layout container)
+        const emotionStatusEl = document.getElementById('emotionStatus');
+
+
+        // --- Core Functions ---
+
+        async function startRecordingProcess() {
+            console.log("Start button clicked."); // Debugging print
+            if (isRecording) {
+                console.log("Already recording, ignoring start click."); // Debugging print
+                return;
+            }
+
+            resetUI();
+            finalTranscript = ''; // Clear browser transcript on new recording
+            transcriptEl.innerText = "Browser transcript will appear here..."; // Reset browser transcript display
+            responseEl.innerText = "🎤 Initializing microphone..."; // Update status display
+            responseEl.style.display = 'block';
+            hideEmotionMedia(); // Hide media when starting new recording
+            bigTextBoxEl.value = ''; // Clear text box on new recording
+
+            // ** Get selected language **
+            const selectedLang = languageSelect.value;
+            console.log("Selected language:", selectedLang); // Debugging print
+
+            try {
+                // Request microphone access
+                console.log("Requesting microphone access..."); // Debugging print
+                gumStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+                console.log("Microphone access granted."); // Debugging print
+                responseEl.innerText = "🎤 Microphone access granted. Listening...";
+
+
+                // Initialize MediaRecorder (try webm first, then default)
+                const options = { mimeType: 'audio/webm;codecs=opus' };
+                try {
+                    console.log("Attempting to initialize MediaRecorder with", options.mimeType); // Debugging print
+                    mediaRecorder = new MediaRecorder(gumStream, options);
+                    console.log("MediaRecorder initialized with", mediaRecorder.mimeType); // Debugging print
+                }
+                catch (e1) {
+                    console.warn(`MediaRecorder with ${options.mimeType} failed: ${e1}. Trying default.`); // Debugging print
+                    try {
+                        console.log("Attempting to initialize MediaRecorder with default options."); // Debugging print
+                        mediaRecorder = new MediaRecorder(gumStream);
+                        console.log("MediaRecorder initialized with default mimeType:", mediaRecorder.mimeType); // Debugging print
+                    }
+                    catch (e2) {
+                        console.error("MediaRecorder initialization failed:", e2); // Debugging print
+                        displayError("❌ Error: Cannot create MediaRecorder.");
+                        cleanupStream(); resetUI(true); return;
+                    }
+                }
+
+
+                mediaRecorder.ondataavailable = (event) => {
+                    console.log("MediaRecorder data available:", event.data.size, "bytes"); // Debugging print
+                    if (event.data.size > 0) audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    console.log("MediaRecorder stopped."); // Debugging print
+                    cleanupStream(); // Stop microphone stream ASAP after recorder stops
+
+                    if (audioChunks.length === 0) {
+                         console.warn("No audio chunks recorded on stop."); // Debugging print
+                         transcriptEl.innerText = "No audio recorded.";
+                         responseEl.innerText = "Recording stopped. No audio captured.";
+                         resetUI(false); // Reset UI but keep buttons enabled
+                         return;
+                    }
+                    const audioBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType });
+                    console.log(`Audio Blob created, type: ${audioBlob.type}, size: ${audioBlob.size}`); // Debugging print
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    recordedAudio.src = audioUrl;
+                    recordedAudio.hidden = false;
+                    // ** Pass selected language to sendBlobToServer **
+                    // Use the finalTranscript captured by the browser API, or a placeholder
+                    sendBlobToServer(audioBlob, finalTranscript || "[No speech recognized]", selectedLang);
+                    audioChunks = []; // Clear chunks for the next recording
+                };
+
+                // Initialize Web Speech Recognition API (browser-side transcription)
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (SpeechRecognition) {
+                    console.log("Browser Speech Recognition API available."); // Debugging print
+                    recognition = new SpeechRecognition();
+                    recognition.lang = selectedLang; // Set language here
+                    recognition.continuous = false; // Set to true for continuous recognition
+                    recognition.interimResults = true; // Set to true for interim results for live feedback
+
+                    recognition.onstart = () => {
+                         console.log("Browser Speech recognition started."); // Debugging print
+                         transcriptEl.innerText = "Browser Recognizing: "; // Clear previous browser transcript
+                    };
+
+                    recognition.onresult = (event) => {
+                        let interimTranscript = '';
+                        for (let i = event.resultIndex; i < event.results.length; ++i) {
+                            if (event.results[i].isFinal) {
+                                finalTranscript += event.results[i][0].transcript;
+                            } else {
+                                interimTranscript += event.results[i][0].transcript;
+                            }
+                        }
+                        // Display interim and final transcript in the transcript div
+                         transcriptEl.innerText = `Browser Recognizing: ${interimTranscript || finalTranscript}`;
+                         console.log(`Browser interim: "${interimTranscript}", final: "${finalTranscript}"`); // Debugging print
+                    };
+
+                    recognition.onerror = (event) => {
+                        console.error("Browser Speech recognition error:", event.error, event.message); // Debugging print
+                        let errorMsg = `⚠️ Browser recognition error (${selectedLang}): ${event.error}`;
+                        if (event.error === 'no-speech') {
+                             errorMsg = "⚠️ Browser recognition: No speech detected.";
+                             finalTranscript = "[Browser: No speech detected]";
+                        } else if (event.error === 'aborted') {
+                            errorMsg = transcriptEl.innerText; // Keep the last shown text if aborted
+                            finalTranscript = finalTranscript || "[Browser: Recognition aborted]";
+                        }
+                         else {
+                             finalTranscript = `[Browser Recognition Error: ${event.error}]`;
+                         }
+
+                         transcriptEl.innerText = errorMsg; // Display the error message in the transcript div
+                         console.log("Browser recognition error. Final transcript set to:", finalTranscript); // Debugging print
+                    };
+
+                    recognition.onend = () => {
+                         console.log("Browser Speech recognition ended."); // Debugging print
+                         transcriptEl.innerText = `Browser Recognized: "${finalTranscript || '[No speech recognized by browser]'}"`; // Finalize browser transcript display
+                         if (isRecording) {
+                              console.warn("Browser recognition ended while still recording, forcing stop."); // Debugging print
+                              // If MediaRecorder is still running, stopping it will trigger sendBlobToServer
+                              if(mediaRecorder && mediaRecorder.state === "recording") {
+                                  stopRecordingProcess();
+                              } else {
+                                   // If MediaRecorder already stopped, but browser recognition ended unexpectedly,
+                                   // ensure cleanup and UI reset happen.
+                                   cleanupStream();
+                                   resetUI(false);
+                              }
+                         }
+                    };
+                     console.log("Starting browser speech recognition..."); // Debugging print
+                     recognition.start();
+                     console.log(`Browser Speech recognition started for ${selectedLang}.`); // Debugging print
+                } else {
+                    console.warn("Browser Speech Recognition API not supported."); // Debugging print
+                    displayError("⚠️ Warning: Browser Speech Recognition not supported. Only server transcription will be available.");
+                    transcriptEl.innerText = "Browser recognition not available.";
+                    finalTranscript = "[Browser recognition not supported]"; // Set placeholder
+                }
+
+                 console.log("Starting MediaRecorder..."); // Debugging print
+                mediaRecorder.start();
+                console.log("MediaRecorder started."); // Debugging print
+                isRecording = true;
+                startButton.disabled = true;
+                stopButton.disabled = false;
+                languageSelect.disabled = true; // Disable language change during recording
+                responseEl.innerText = "🎤 Recording... Speak now.";
+
+
+            } catch (error) {
+                console.error("Error during startRecordingProcess:", error); // Debugging print
+                let errorMsg = `❌ Error starting recording: ${error.name} - ${error.message}`;
+                if (error.name === 'NotAllowedError') errorMsg = "❌ Mic access error: Permission denied. Please allow microphone access.";
+                if (error.name === 'NotFoundError') errorMsg = "❌ Mic access error: No microphone found. Please ensure a microphone is connected.";
+                displayError(errorMsg);
+                responseEl.style.display = 'none'; // Hide status on error
+                cleanupStream(); resetUI(true);
+            }
+        }
+
+        function stopRecordingProcess() {
+            console.log("Stop button clicked."); // Debugging print
+             if (!isRecording) {
+                 console.log("Not recording, ignoring stop click."); // Debugging print
+                 return;
+             }
+            isRecording = false; // Set this first to prevent double stopping
+            responseEl.innerText = "⏹ Stopping recording...";
+
+
+            // Stop browser recognition first
+            if (recognition) {
+                 try {
+                     console.log("Stopping browser speech recognition..."); // Debugging print
+                     recognition.stop(); // This will trigger recognition.onend
+                 } catch (e) {
+                     console.error("Error stopping browser recognition:", e); // Debugging print
+                 }
+            } else {
+                 console.log("Browser speech recognition not active."); // Debugging print
+            }
+
+            // Stop MediaRecorder
+            if (mediaRecorder && mediaRecorder.state === "recording") {
+                 console.log("Stopping MediaRecorder..."); // Debugging print
+                 mediaRecorder.stop(); // This will trigger mediaRecorder.onstop, which calls sendBlobToServer
+            } else {
+                 console.log("MediaRecorder not recording or already stopped."); // Debugging print
+                 // If MediaRecorder wasn't recording, send the blob immediately if chunks exist
+                 if (audioChunks.length > 0) {
+                     const audioBlob = new Blob(audioChunks, { type: mediaRecorder ? mediaRecorder.mimeType : 'audio/wav' }); // Guess type if recorder wasn't init
+                     sendBlobToServer(audioBlob, finalTranscript || "[No speech recognized]", languageSelect.value);
+                     audioChunks = [];
+                 } else {
+                      console.warn("Stop called, but no recording was active and no audio chunks collected.");
+                      responseEl.innerText = "Recording stopped.";
+                 }
+            }
+
+            // UI Reset happens after sendBlobToServer in onstop, or here if nothing to send
+             startButton.disabled = false;
+             stopButton.disabled = true;
+             languageSelect.disabled = false; // Re-enable language change
+             console.log("Stop recording process initiated."); // Debugging print
+        }
+
+        // ** Modified to accept and send language code, and handle translated response and emotion **
+        function sendBlobToServer(blob, browserTranscript, languageCode) {
+            console.log(`Sending audio blob (${blob.type}, ${blob.size} bytes) to server...`); // Debugging print
+            responseEl.innerText = "⏳ Sending audio to server for transcription and analysis...";
+            responseEl.style.display = 'block';
+            errorEl.style.display = 'none';
+            hideEmotionMedia(); // Hide media while processing
+            bigTextBoxEl.value = ''; // Clear text box while processing
+
+            const formData = new FormData();
+            const fileExtension = blob.type.split('/')[1]?.split(';')[0] || 'bin';
+            const filename = `recording.${fileExtension}`;
+            formData.append('audio', blob, filename);
+            formData.append('transcript', browserTranscript); // Send browser transcript
+            formData.append('language', languageCode); // ** Add language code to form data **
+
+            fetch('/upload', { method: 'POST', body: formData })
+            .then(response => {
+                console.log("Server /upload response status:", response.status); // Debugging print
+                // Check for unauthorized response (401)
+                if (response.status === 401) {
+                     displayError("Session expired or not logged in. Please log in again.");
+                     // Redirect to login page after a short delay
+                     setTimeout(() => { window.location.href = "{{ url_for('login') }}"; }, 2000);
+                     return Promise.reject("Unauthorized"); // Stop processing
+                }
+                if (!response.ok) return response.text().then(text => { throw new Error(`Server error: ${response.status} ${response.statusText}. ${text}`); });
+                return response.json();
+            })
+            .then(data => {
+                console.log("Server response data:", data); // Debugging print
+
+                // --- Display concise server status message ---
+                let responseStatusText = `✅ Server (${data.language_used || languageCode}): ${data.message}`;
+                if (data.server_transcript && data.server_transcript.includes("[Could not understand audio")) {
+                     responseStatusText += "\n⚠️ Note: Server had trouble transcribing the audio.";
+                } else if (data.error) {
+                     responseStatusText = `❌ Backend Error: ${data.error}`;
+                     displayError(`❌ Backend Error: ${data.error}`); // Also show in error div
+                }
+                responseEl.innerText = responseStatusText; // Set status message
+
+
+                // --- Handle Emotion Detection Result ---
+                if (data.detected_emotion && data.detected_emotion !== 'Error') {
+                     console.log("Detected Emotion:", data.detected_emotion); // Debugging print
+                     emotionStatusEl.innerText = `Detected Emotion: ${data.detected_emotion}`;
+                     // Request and display emotion-based media
+                     requestEmotionMedia(data.detected_emotion);
+                } else {
+                     emotionStatusEl.innerText = "Emotion detection status: " + (data.detected_emotion === 'Error' ? 'Error' : 'Not detected or Neutral');
+                     hideEmotionMedia(); // Hide media if emotion not detected or error
+                }
+
+                // --- Populate the big text box with formatted results ---
+                let textBoxContent = '';
+                let serverTx = data.server_transcript || "[No server transcript or error]";
+                let browserTx = data.user_transcript || "[No browser transcript provided]";
+                let translatedRx = data.translated_response || "Translation not available.";
+
+                // Line 1: Server Transcript
+                textBoxContent += `Server Tx: ${serverTx}`;
+
+                // Line 2: Browser Transcript (show only if it's not the default placeholder/error and potentially different)
+                 // Let's simplify: show Browser Tx if it captured *something* meaningful, even if it matches server Tx.
+                 if (browserTx !== "[User transcript not provided]" && !browserTx.startsWith('[Browser Recognition Error:')) {
+                     textBoxContent += `\nBrowser Tx: ${browserTx}`;
+                 } else {
+                     textBoxContent += `\nBrowser Tx: [Not available or Error]`; // Indicate browser transcript wasn't useful
+                 }
+
+
+                // Line 3: Translated Response (show only if translation was available)
+                if (translatedRx && translatedRx !== "Translation not available." && !translatedRx.startsWith('[Translation failed:')) {
+                    textBoxContent += `\nTranslated Response: ${translatedRx}`;
+                } else {
+                     // Indicate if translation was attempted but failed, or not available.
+                     // Check if translator exists and server transcript was OK before suggesting backend logs
+                     const translatorMaybeAvailable = !responseStatusText.includes("Google Translate initialization failed"); // Simple check based on status message
+                     const serverTranscriptOK = serverTx && !serverTx.startsWith('[');
+
+                     if (translatedRx.startsWith('[Translation failed:')) {
+                         textBoxContent += `\nTranslated Response: Error - ${translatedRx.substring(20)}`; // Show translation error message
+                     } else if (translatorMaybeAvailable && serverTranscriptOK) {
+                         textBoxContent += `\nTranslated Response: Not available (check backend logs).`;
+                     } else {
+                         textBoxContent += `\nTranslated Response: Not available.`;
+                     }
+                }
+
+                bigTextBoxEl.value = textBoxContent.trim();
+
+
+            })
+            .catch(err => {
+                console.error("Upload failed:", err); // Debugging print
+                 if (err !== "Unauthorized") { // Don't show generic error if it was an auth error handled above
+                     displayError(`❌ Upload failed: ${err.message}.`);
+                 }
+                 responseEl.innerText = "❌ Upload and processing failed."; // Update status message
+                 responseEl.style.display = 'block';
+                 hideEmotionMedia(); // Hide media on upload failure
+                 bigTextBoxEl.value = ''; // Clear text box on failure
+            });
+        }
+
+        // --- New function to request and display emotion-based media ---
+        async function requestEmotionMedia(emotion) {
+            console.log("Requesting emotion media for:", emotion); // Debugging print
+            // The emotionMediaContainer is no longer used for layout, but we can use it to show/hide status
+            // emotionMediaContainer.style.display = 'block'; // Show the media container
+
+            // Clear previous media and messages
+            emotionImageEl.src = '';
+            emotionImageEl.style.display = 'none';
+            emotionVideoEl.src = '';
+            emotionVideoEl.style.display = 'none';
+            emotionAudioEl.src = ''; // Clear audio src
+            emotionAudioEl.style.display = 'none'; // Hide audio element
+            noImagesMessageEl.style.display = 'none';
+            noVideoMessageEl.style.display = 'none';
+            noAudioMessageEl.style.display = 'none';
+
+
+            // --- Fetch 1 Image (Left Column) ---
+            console.log(`Requesting 1 image for emotion: ${emotion}`); // Debugging print
+            try {
+                const imageResponse = await fetch(`/get_emotion_file/${emotion}/images`);
+                console.log("Image fetch response status:", imageResponse.status); // Debugging print
+                if (imageResponse.status === 401) {
+                     displayError("Session expired. Please log in again.");
+                     setTimeout(() => { window.location.href = "{{ url_for('login') }}"; }, 2000);
+                     return; // Stop processing
+                }
+                if (imageResponse.ok) {
+                    const blob = await imageResponse.blob();
+                    const fileUrl = URL.createObjectURL(blob);
+                    emotionImageEl.src = fileUrl;
+                    emotionImageEl.style.display = 'block';
+                    console.log("Image displayed."); // Debugging print
+                } else if (imageResponse.status === 404) {
+                    console.warn(`No image found for ${emotion}.`); // Debugging print
+                    noImagesMessageEl.style.display = 'block';
+                } else {
+                     const errorText = await imageResponse.text();
+                     console.error(`Error fetching image for ${emotion}: ${imageResponse.status} ${imageResponse.statusText}. ${errorText}`); // Debugging print
+                     displayError(`❌ Error fetching image for ${emotion}.`);
+                     noImagesMessageEl.style.display = 'block';
+                }
+            } catch (err) {
+                console.error("Error during image fetch:", err); // Debugging print
+                 if (err !== "Unauthorized") {
+                     displayError(`❌ Error fetching image: ${err.message}.`);
+                 }
+                 noImagesMessageEl.style.display = 'block';
+            }
+
+
+            // --- Fetch 1 Video (Right Column) ---
+            console.log(`Requesting 1 video file for emotion: ${emotion}`); // Debugging print
+            try {
+                const videoResponse = await fetch(`/get_emotion_file/${emotion}/video`);
+                console.log("Video fetch response status:", videoResponse.status); // Debugging print
+                 if (videoResponse.status === 401) {
+                     displayError("Session expired. Please log in again.");
+                     setTimeout(() => { window.location.href = "{{ url_for('login') }}"; }, 2000);
+                     return; // Stop processing
+                 }
+                if (videoResponse.ok) {
+                    const blob = await videoResponse.blob();
+                    const fileUrl = URL.createObjectURL(blob);
+                    emotionVideoEl.src = fileUrl;
+                    emotionVideoEl.style.display = 'block';
+                    emotionVideoEl.load(); // Load the video
+                    console.log("Video displayed."); // Debugging print
+                    // emotionVideoEl.play(); // Optional: Auto-play video
+                } else if (videoResponse.status === 404) {
+                    console.warn(`No video found for ${emotion}.`); // Debugging print
+                    noVideoMessageEl.style.display = 'block';
+                } else {
+                     const errorText = await videoResponse.text();
+                     console.error(`Error fetching video for ${emotion}: ${videoResponse.status} ${videoResponse.statusText}. ${errorText}`); // Debugging print
+                     displayError(`❌ Error fetching video for ${emotion}.`);
+                     noVideoMessageEl.style.display = 'block';
+                }
+            } catch (err) {
+                 console.error("Error during video fetch:", err); // Debugging print
+                 if (err !== "Unauthorized") {
+                     displayError(`❌ Error fetching video: ${err.message}.`);
+                 }
+                 noVideoMessageEl.style.display = 'block';
+            }
+
+             // --- Fetch 1 Audio (Right Column, below video) ---
+            console.log(`Requesting 1 audio file for emotion: ${emotion}`); // Debugging print
+            try {
+                const audioResponse = await fetch(`/get_emotion_file/${emotion}/audio`);
+                console.log("Audio fetch response status:", audioResponse.status); // Debugging print
+                 if (audioResponse.status === 401) {
+                     displayError("Session expired. Please log in again.");
+                     setTimeout(() => { window.location.href = "{{ url_for('login') }}"; }, 2000);
+                     return; // Stop processing
+                 }
+                if (audioResponse.ok) {
+                    const blob = await audioResponse.blob();
+                    const fileUrl = URL.createObjectURL(blob);
+                    emotionAudioEl.src = fileUrl;
+                    emotionAudioEl.style.display = 'block';
+                    emotionAudioEl.load(); // Load the audio
+                    console.log("Audio displayed."); // Debugging print
+                    // emotionAudioEl.play(); // Optional: Auto-play audio
+                } else if (audioResponse.status === 404) {
+                    console.warn(`No audio found for ${emotion}.`); // Debugging print
+                    noAudioMessageEl.style.display = 'block';
+                } else {
+                    const errorText = await audioResponse.text();
+                    console.error(`Error fetching audio for ${emotion}: ${audioResponse.status} ${audioResponse.statusText}. ${errorText}`); // Debugging print
+                    displayError(`❌ Error fetching audio for ${emotion}.`);
+                    noAudioMessageEl.style.display = 'block';
+                }
+            } catch (err) {
+                 console.error("Error during audio fetch:", err); // Debugging print
+                 if (err !== "Unauthorized") {
+                     displayError(`❌ Error fetching audio: ${err.message}.`);
+                 }
+                 noAudioMessageEl.style.display = 'block';
+            }
+
+            // Display emotion status after all fetches are attempted
+             emotionStatusEl.innerText = `Detected Emotion: ${emotion}`;
+             console.log("Emotion media request process complete."); // Debugging print
+        }
+
+
+        // --- Helper to hide all emotion media elements and messages ---
+        function hideEmotionMedia() {
+            console.log("Hiding emotion media."); // Debugging print
+            // Hide image
+            emotionImageEl.src = ''; // Clear src to prevent displaying old content
+            emotionImageEl.style.display = 'none';
+            noImagesMessageEl.style.display = 'none';
+
+            // Hide audio
+            emotionAudioEl.src = '';
+            emotionAudioEl.style.display = 'none';
+             if (!emotionAudioEl.paused) emotionAudioEl.pause();
+
+            // Hide video
+            emotionVideoEl.src = '';
+            emotionVideoEl.style.display = 'none';
+             if (!emotionVideoEl.paused) emotionVideoEl.pause();
+
+             noAudioMessageEl.style.display = 'none';
+             noVideoMessageEl.style.display = 'none';
+
+             emotionStatusEl.innerText = ''; // Clear emotion status text
+             // No longer hiding the main container, as it's part of the layout
+             // emotionMediaContainer.style.display = 'none';
+        }
+
+
+        function cleanupStream() {
+            console.log("Cleaning up microphone stream."); // Debugging print
+            if (gumStream) {
+                 gumStream.getTracks().forEach(track => {
+                     track.stop();
+                     console.log("Mic track stopped."); // Debugging print
+                 });
+                 // Do NOT set gumStream to null immediately if MediaRecorder might still need it
+                 // Let MediaRecorder.onstop handle final cleanup after blob is created.
+                 // However, if we stop stream here, MediaRecorder might fail.
+                 // It's safer to stop tracks and let the object reference persist until onstop.
+                 // Re-evaluating: stopping tracks is sufficient to release mic. Setting to null prevents reuse.
+                 // Let's keep setting to null after stopping tracks.
+                 gumStream = null;
+                 console.log("Mic stream fully stopped."); // Debugging print
+            } else {
+                console.log("No microphone stream to clean up."); // Debugging print
+            }
+        }
+
+        function displayError(message) {
+            errorEl.innerText = message;
+            errorEl.style.display = 'block';
+             console.error("Displayed Error:", message); // Debugging print
+        }
+
+        function resetUI(isInitial = false) {
+            console.log("Resetting UI (isInitial:", isInitial, ")"); // Debugging print
+            errorEl.innerText = ''; errorEl.style.display = 'none';
+            responseEl.innerText = ''; responseEl.style.display = 'none'; // Clear server status
+            recordedAudio.src = ''; recordedAudio.hidden = true;
+            audioChunks = []; // Clear audio chunks on reset
+            hideEmotionMedia(); // Hide media on UI reset
+            bigTextBoxEl.value = ''; // Clear text box on UI reset
+            finalTranscript = ''; // Clear browser final transcript
+            transcriptEl.innerText = 'Browser transcript will appear here...'; // Reset browser transcript display
+
+
+            if (isInitial) {
+                // Initial state: enable start, disable stop, enable language
+                startButton.disabled = false;
+                stopButton.disabled = true;
+                languageSelect.disabled = false;
+                responseEl.innerText = 'Select language and click Start Recording to begin.'; // Initial status
+                responseEl.style.display = 'block';
+
+
+            } else {
+                 // After stopping: enable start, disable stop, enable language
+                 startButton.disabled = false;
+                 stopButton.disabled = true;
+                 languageSelect.disabled = false;
+                 // The response div will be updated by sendBlobToServer or stop logic
+            }
+             console.log("UI reset complete."); // Debugging print
+        }
+
+        // --- Event Listeners ---
+        console.log("Adding event listeners..."); // Debugging print
+        startButton.addEventListener("click", startRecordingProcess);
+        stopButton.addEventListener("click", stopRecordingProcess);
+        logoutButton.addEventListener("click", () => {
+             console.log("Logout button clicked, redirecting."); // Debugging print
+             window.location.href = "{{ url_for('logout') }}"; // Redirect to logout route
+        });
+        console.log("Event listeners added."); // Debugging print
+
+
+        // --- Initialization ---
+        console.log("Initializing frontend..."); // Debugging print
+        resetUI(true); // Initial UI setup
+        recordedAudio.hidden = true; // Hide audio player initially
+        hideEmotionMedia(); // Ensure media is hidden on load
+        console.log("Multilingual Frontend Initialized.");
+
+         // Optional: Check if the browser supports MediaRecorder and SpeechRecognition
+         if (!window.MediaRecorder) {
+             displayError("❌ Error: MediaRecorder not supported in this browser.");
+             startButton.disabled = true;
+             console.error("MediaRecorder not supported."); // Debugging print
+         }
+          if (! (window.SpeechRecognition || window.webkitSpeechRecognition)) {
+             console.warn("Browser Speech Recognition API not supported."); // Debugging print
+             // The warning message about browser recognition not being supported is handled in startRecordingProcess
+          }
+
+    </script>
+</body>
+</html>

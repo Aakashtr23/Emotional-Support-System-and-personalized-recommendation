@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Text (Multilingual)</title>
+    <style>
+        /* Basic styling for better presentation */
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        .controls {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center; /* Align items vertically */
+            gap: 10px; /* Add space between elements */
+        }
+        label {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        select, button {
+            padding: 10px 15px; /* Consistent padding */
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 8px;
+            border: 1px solid #ccc; /* Add border to select */
+            font-size: 1em;
+        }
+        button {
+            border: none;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        select {
+            background-color: #fff;
+        }
+        #transcript, #server-response, #error {
+            margin-top: 15px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            min-height: 40px;
+            width: 90%;
+            max-width: 600px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+            line-height: 1.5;
+        }
+        #error {
+            color: #dc3545;
+            font-weight: bold;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            display: none; /* Hide initially */
+        }
+        #server-response {
+            color: #28a745;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            white-space: pre-wrap;
+            display: none; /* Hide initially */
+        }
+         /* Style for the local playback audio element */
+        #recordedAudio {
+            margin-top: 15px;
+            width: 90%;
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎤 Speech to Text (Multilingual)</h1>
+
+    <div class="controls">
+        <label for="languageSelect">Language:</label>
+        <select id="languageSelect">
+            <option value="en-IN">English (India)</option>
+            <option value="hi-IN">Hindi (हिन्दी)</option>
+            <option value="kn-IN">Kannada (ಕನ್ನಡ)</option>
+            <option value="ta-IN">Tamil (தமிழ்)</option>
+            <option value="te-IN">Telugu (తెలుగు)</option>
+            <option value="en-US">English (US)</option>
+        </select>
+
+        <button id="startButton">🎙 Start Recording</button>
+        <button id="stopButton" disabled>⏹ Stop Recording</button>
+    </div>
+
+    <div id="transcript">Transcript will appear here...</div>
+    <div id="server-response"></div>
+    <div id="error"></div>
+
+    <audio id="recordedAudio" controls></audio>
+
+    <script>
+        // --- Global Variables ---
+        let mediaRecorder;
+        let audioChunks = [];
+        let recognition;
+        let gumStream;
+        let finalTranscript = '';
+        let isRecording = false;
+
+        // DOM Element References
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const recordedAudio = document.getElementById('recordedAudio');
+        const errorEl = document.getElementById('error');
+        const transcriptEl = document.getElementById('transcript');
+        const responseEl = document.getElementById('server-response');
+        const languageSelect = document.getElementById('languageSelect'); // Get language dropdown
+
+        // --- Core Functions ---
+
+        async function startRecordingProcess() {
+            console.log("Start button clicked.");
+            if (isRecording) return;
+
+            resetUI();
+            finalTranscript = '';
+            transcriptEl.innerText = "🎤 Initializing...";
+
+            // ** Get selected language **
+            const selectedLang = languageSelect.value;
+            console.log("Selected language:", selectedLang);
+
+            try {
+                gumStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+                console.log("Microphone access granted.");
+                transcriptEl.innerText = "🎤 Listening...";
+
+                // Initialize MediaRecorder (try webm first)
+                const options = { mimeType: 'audio/webm;codecs=opus' };
+                try { mediaRecorder = new MediaRecorder(gumStream, options); }
+                catch (e1) {
+                    console.warn(`MediaRecorder with ${options.mimeType} failed: ${e1}. Trying default.`);
+                    try { mediaRecorder = new MediaRecorder(gumStream); }
+                    catch (e2) {
+                        console.error("MediaRecorder initialization failed:", e2);
+                        displayError("❌ Error: Cannot create MediaRecorder.");
+                        cleanupStream(); resetUI(true); return;
+                    }
+                }
+                console.log("MediaRecorder initialized with mimeType:", mediaRecorder.mimeType);
+
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    console.log("MediaRecorder stopped.");
+                    if (audioChunks.length === 0) return;
+                    const audioBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType });
+                    console.log(`Audio Blob created, type: ${audioBlob.type}, size: ${audioBlob.size}`);
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    recordedAudio.src = audioUrl;
+                    recordedAudio.hidden = false;
+                    // ** Pass selected language to sendBlobToServer **
+                    sendBlobToServer(audioBlob, finalTranscript || "[No speech recognized]", selectedLang);
+                    audioChunks = [];
+                };
+
+                // Initialize Speech Recognition ** using selected language **
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (SpeechRecognition) {
+                    recognition = new SpeechRecognition();
+                    recognition.lang = selectedLang; // Set language here
+                    recognition.continuous = false;
+                    recognition.interimResults = false;
+
+                    recognition.onresult = (event) => {
+                        finalTranscript = event.results[0][0].transcript;
+                        console.log(`Speech recognized (${selectedLang}):`, finalTranscript);
+                        transcriptEl.innerText = `Recognized (${selectedLang}): "${finalTranscript}"`;
+                    };
+                    recognition.onerror = (event) => {
+                        console.error("Speech recognition error:", event.error, event.message);
+                        let errorMsg = `⚠️ Recognition error (${selectedLang}): ${event.error}`;
+                        if (event.error === 'no-speech') errorMsg = "⚠️ Recognition: No speech detected.";
+                        else if (event.error !== 'aborted') finalTranscript = `[Recognition Error: ${event.error}]`;
+                        transcriptEl.innerText = errorMsg;
+                    };
+                    recognition.onend = () => console.log("Speech recognition ended.");
+                    recognition.start();
+                    console.log(`Speech recognition started for ${selectedLang}.`);
+                } else {
+                    displayError("⚠️ Warning: Browser Speech Recognition not supported. Only server transcription will be available.");
+                }
+
+                mediaRecorder.start();
+                console.log("MediaRecorder started.");
+                isRecording = true;
+                startButton.disabled = true;
+                stopButton.disabled = false;
+                languageSelect.disabled = true; // Disable language change during recording
+
+            } catch (error) {
+                console.error("Error during start:", error);
+                let errorMsg = `❌ Error starting recording: ${error.name} - ${error.message}`;
+                if (error.name === 'NotAllowedError') errorMsg = "❌ Mic access error: Permission denied.";
+                if (error.name === 'NotFoundError') errorMsg = "❌ Mic access error: No microphone found.";
+                displayError(errorMsg);
+                cleanupStream(); resetUI(true);
+            }
+        }
+
+        function stopRecordingProcess() {
+            console.log("Stop button clicked.");
+            if (!isRecording) return;
+            if (recognition) { try { recognition.stop(); } catch (e) {} }
+            if (mediaRecorder && mediaRecorder.state === "recording") mediaRecorder.stop();
+            cleanupStream();
+            isRecording = false;
+            startButton.disabled = false;
+            stopButton.disabled = true;
+            languageSelect.disabled = false; // Re-enable language change
+        }
+
+        // ** Modified to accept and send language code **
+        function sendBlobToServer(blob, transcript, languageCode) {
+            console.log(`Sending blob (${blob.type}, ${blob.size} bytes), transcript: "${transcript}", lang: ${languageCode}`);
+            responseEl.innerText = "⏳ Sending audio to server...";
+            responseEl.style.display = 'block';
+            errorEl.style.display = 'none';
+
+            const formData = new FormData();
+            const fileExtension = blob.type.split('/')[1]?.split(';')[0] || 'bin';
+            const filename = `recording.${fileExtension}`;
+            formData.append('audio', blob, filename);
+            formData.append('transcript', transcript);
+            formData.append('language', languageCode); // ** Add language code to form data **
+
+            fetch('/upload', { method: 'POST', body: formData })
+            .then(response => {
+                if (!response.ok) return response.text().then(text => { throw new Error(`Server error: ${response.status} ${response.statusText}. ${text}`); });
+                return response.json();
+            })
+            .then(data => {
+                console.log("Server response:", data);
+                // ** Indicate language in response display **
+                responseEl.innerText = `✅ Server (${data.language_used || languageCode}): ${data.message}\n\nUser Tx: ${data.user_transcript}\nServer Tx: ${data.server_transcript}`;
+                if (data.server_transcript && data.server_transcript.includes("[Could not understand audio")) {
+                    responseEl.innerText += "\n\n⚠️ Note: Server had trouble transcribing the audio.";
+                } else if (data.error) {
+                    displayError(`❌ Backend Error: ${data.error}`);
+                }
+            })
+            .catch(err => {
+                console.error("Upload failed:", err);
+                displayError(`❌ Upload failed: ${err.message}.`);
+            });
+        }
+
+        function cleanupStream() {
+            if (gumStream) { gumStream.getTracks().forEach(track => track.stop()); gumStream = null; console.log("Mic stream stopped."); }
+        }
+        function displayError(message) { errorEl.innerText = message; errorEl.style.display = 'block'; }
+        function resetUI(isInitial = false) {
+            errorEl.innerText = ''; errorEl.style.display = 'none';
+            responseEl.innerText = ''; responseEl.style.display = 'none';
+            recordedAudio.src = ''; recordedAudio.hidden = true;
+            if (isInitial) {
+                transcriptEl.innerText = 'Select language and click Start Recording';
+                startButton.disabled = false; stopButton.disabled = true; languageSelect.disabled = false;
+            }
+        }
+
+        startButton.addEventListener("click", startRecordingProcess);
+        stopButton.addEventListener("click", stopRecordingProcess);
+        resetUI(true);
+        recordedAudio.hidden = true;
+        console.log("Multilingual Frontend Initialized.");
+    </script>
+</body>
+</html>
+```

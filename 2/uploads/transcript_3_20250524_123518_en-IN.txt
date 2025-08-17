@@ -1,0 +1,9 @@
+Timestamp: 20250524_123518
+User ID: 3
+Requested Language: en-IN
+Original File: audio_20250524_123518.webm
+Processed WAV File: audio_3_20250524_123518.wav
+User transcript (from frontend): feeling very stress because I woke up early morning
+Server transcript (en-IN): feeling very stress because I woke up early morning
+Detected Emotion: Sad
+Translated Response: Okay, I heard you say: 'feeling very stress because I woke up early morning'. Based on that, I detected the emotion: 'Sad'. How can I help further?

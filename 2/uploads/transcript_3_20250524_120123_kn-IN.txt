@@ -1,0 +1,9 @@
+Timestamp: 20250524_120123
+User ID: 3
+Requested Language: kn-IN
+Original File: audio_20250524_120123.webm
+Processed WAV File: audio_3_20250524_120123.wav
+User transcript (from frontend): ಊಟ ಮಾಡಿ ಮಲ್ಕೋ
+Server transcript (kn-IN): ಊಟ ಮಾಡಿ ಮಲ್ಕೋ
+Detected Emotion: Surprised
+Translated Response: ಸರಿ, ನೀವು ಹೇಳುವುದನ್ನು ನಾನು ಕೇಳಿದೆ: 'ಮುಲ್ಕೊ make ಟ ಮಾಡಿ'. ಅದರ ಆಧಾರದ ಮೇಲೆ, ನಾನು ಭಾವನೆಯನ್ನು ಪತ್ತೆ ಮಾಡಿದೆ: 'ಆಶ್ಚರ್ಯ'. ನಾನು ಮತ್ತಷ್ಟು ಸಹಾಯ ಮಾಡುವುದು ಹೇಗೆ?

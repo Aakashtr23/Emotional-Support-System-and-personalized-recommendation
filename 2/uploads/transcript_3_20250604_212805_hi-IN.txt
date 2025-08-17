@@ -1,0 +1,9 @@
+Timestamp: 20250604_212805
+User ID: 3
+Requested Language: hi-IN
+Original File: audio_20250604_212805.webm
+Processed WAV File: audio_3_20250604_212805.wav
+User transcript (from frontend): मुझे किसी से बात नहीं करनी मेरा मन नहीं कर रहा है
+Server transcript (hi-IN): मुझे किसी से बात नहीं करनी मेरा मन नहीं कर रहा है
+Detected Emotion: Surprised
+Translated Response: ठीक है, मैंने आपको यह कहते हुए सुना: 'मुझे किसी से बात करने में कोई आपत्ति नहीं है'। उसके आधार पर, मैंने भावना का पता लगाया: 'हैरान'। मैं आगे कैसे मदद कर सकता हूं?

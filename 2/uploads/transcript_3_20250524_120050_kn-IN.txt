@@ -1,0 +1,9 @@
+Timestamp: 20250524_120050
+User ID: 3
+Requested Language: kn-IN
+Original File: audio_20250524_120050.webm
+Processed WAV File: audio_3_20250524_120050.wav
+User transcript (from frontend): ನನಗೆ ತುಂಬಾ ಖುಷಿಯಾಗಿದೆ
+Server transcript (kn-IN): ನನಗೆ ತುಂಬಾ ಖುಷಿ ಆಗಿದೆ
+Detected Emotion: Happy
+Translated Response: ಸರಿ, ನೀವು ಹೇಳುವುದನ್ನು ನಾನು ಕೇಳಿದೆ: 'ನಾನು ತುಂಬಾ ಸಂತೋಷವಾಗಿದ್ದೇನೆ'. ಅದರ ಆಧಾರದ ಮೇಲೆ, ನಾನು ಭಾವನೆಯನ್ನು ಪತ್ತೆ ಮಾಡಿದೆ: 'ಸಂತೋಷ'. ನಾನು ಮತ್ತಷ್ಟು ಸಹಾಯ ಮಾಡುವುದು ಹೇಗೆ?

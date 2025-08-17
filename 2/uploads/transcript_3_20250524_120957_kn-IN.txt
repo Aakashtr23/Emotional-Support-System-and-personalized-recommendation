@@ -1,0 +1,9 @@
+Timestamp: 20250524_120957
+User ID: 3
+Requested Language: kn-IN
+Original File: audio_20250524_120957.webm
+Processed WAV File: audio_3_20250524_120957.wav
+User transcript (from frontend): [No speech recognized]
+Server transcript (kn-IN): ಜೈ ಡಿ ಬಾಸ್
+Detected Emotion: Surprised
+Translated Response: ಸರಿ, ನೀವು ಹೇಳುವುದನ್ನು ನಾನು ಕೇಳಿದೆ: 'ಜೈ ಡಿ ಬಾಸ್'. ಅದರ ಆಧಾರದ ಮೇಲೆ, ನಾನು ಭಾವನೆಯನ್ನು ಪತ್ತೆ ಮಾಡಿದೆ: 'ಆಶ್ಚರ್ಯ'. ನಾನು ಮತ್ತಷ್ಟು ಸಹಾಯ ಮಾಡುವುದು ಹೇಗೆ?

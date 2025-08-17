@@ -1,0 +1,9 @@
+Timestamp: 20250524_123807
+User ID: 3
+Requested Language: hi-IN
+Original File: audio_20250524_123807.webm
+Processed WAV File: audio_3_20250524_123807.wav
+User transcript (from frontend): मैं जल्दी उठ गया था आज अच्छा नहीं लग रहा है
+Server transcript (hi-IN): मैं जल्दी उठ गया था आज अच्छा नहीं लग रहा
+Detected Emotion: Disgust
+Translated Response: ठीक है, मैंने आपको यह कहते हुए सुना: 'मैं आज अच्छा महसूस नहीं कर रहा था'। उसके आधार पर, मैंने भावना का पता लगाया: 'घृणा'। मैं आगे कैसे मदद कर सकता हूं?

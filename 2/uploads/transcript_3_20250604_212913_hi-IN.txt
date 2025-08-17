@@ -1,0 +1,9 @@
+Timestamp: 20250604_212913
+User ID: 3
+Requested Language: hi-IN
+Original File: audio_20250604_212913.webm
+Processed WAV File: audio_3_20250604_212913.wav
+User transcript (from frontend): मेरा मन अच्छा नहीं है बिकॉज ई वॉक अप अर्ली मॉर्निंग
+Server transcript (hi-IN): मेरा मन अच्छा नहीं है बिकॉज ई वॉक अप अर्ली मॉर्निंग
+Detected Emotion: Angry
+Translated Response: ठीक है, मैंने आपको यह कहते हुए सुना: 'मेरा दिमाग अच्छा नहीं है बिकोस ई वॉक अप अप सुबह।' उसके आधार पर, मैंने भावना का पता लगाया: 'गुस्सा'। मैं आगे कैसे मदद कर सकता हूं?

@@ -1,0 +1,9 @@
+Timestamp: 20250522_120402
+User ID: 3
+Requested Language: hi-IN
+Original File: audio_20250522_120402.webm
+Processed WAV File: audio_3_20250522_120402.wav
+User transcript (from frontend): बहुत गुस्सा आ रहा है
+Server transcript (hi-IN): बहुत गुस्सा आ रहा है
+Detected Emotion: Angry
+Translated Response: ठीक है, मैंने आपको यह कहते हुए सुना: 'बहुत गुस्सा हो रहा है'। उसके आधार पर, मैंने भावना का पता लगाया: 'गुस्सा'। मैं आगे कैसे मदद कर सकता हूं?

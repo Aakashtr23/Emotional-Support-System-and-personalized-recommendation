@@ -1,0 +1,9 @@
+Timestamp: 20250515_192957
+User ID: 3
+Requested Language: hi-IN
+Original File: audio_20250515_192957.webm
+Processed WAV File: audio_3_20250515_192957.wav
+User transcript (from frontend): मुझे अच्छा नहीं लग रहा है
+Server transcript (hi-IN): मुझे अच्छा नहीं लग रहा है
+Detected Emotion: Angry
+Translated Response: ठीक है, मैंने आपको यह कहते हुए सुना: 'मुझे अच्छा नहीं लगता'। उसके आधार पर, मैंने भावना का पता लगाया: 'गुस्सा'। मैं आगे कैसे मदद कर सकता हूं?
